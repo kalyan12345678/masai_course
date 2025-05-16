@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Event Propagation Exploration</title>
+  <style>
+    .box {
+      padding: 30px;
+      margin: 10px;
+      border: 2px solid black;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="outer" class="box">
+    Outer Div
+    <button id="outerBtn">Outer Button</button>
+
+    <div id="middle" class="box">
+      Middle Div
+      <button id="middleBtn">Middle Button</button>
+
+      <div id="inner" class="box">
+        Inner Div
+        <button id="innerBtn">Inner Button</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    
+    const outer = document.getElementById('outer');
+    const middle = document.getElementById('middle');
+    const inner = document.getElementById('inner');
+
+    const outerBtn = document.getElementById('outerBtn');
+    const middleBtn = document.getElementById('middleBtn');
+    const innerBtn = document.getElementById('innerBtn');
+
+   
+    outer.addEventListener('click', () => alert('Outer Div - Capturing'), true);
+    middle.addEventListener('click', () => alert('Middle Div - Capturing'), true);
+    inner.addEventListener('click', () => alert('Inner Div - Capturing'), true);
+
+    
+    outer.addEventListener('click', () => alert('Outer Div - Bubbling'));
+    middle.addEventListener('click', () => alert('Middle Div - Bubbling'));
+    inner.addEventListener('click', () => alert('Inner Div - Bubbling'));
+
+    
+    outerBtn.addEventListener('click', () => alert('Outer Button'));
+    middleBtn.addEventListener('click', () => alert('Middle Button'));
+
+    innerBtn.addEventListener('click', (e) => {
+      alert('Inner Button');
+     
+      e.stopPropagation();
+    });
+  </script>
+
+</body>
+</html>
