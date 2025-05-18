@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notes App</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        textarea {
+            width: 100%;
+            height: 200px;
+            margin-bottom: 10px;
+            padding: 10px;
+            font-size: 16px;
+        }
+        button {
+            padding: 10px 15px;
+            margin-right: 10px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .controls {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>My Notes</h1>
+    <textarea id="notesArea" placeholder="Enter your notes here..."></textarea>
+    <div class="controls">
+        <button id="saveBtn">Save Notes</button>
+        <button id="loadBtn">Load Notes</button>
+        <button id="clearBtn">Clear Notes</button>
+    </div>
+
+
+</body>
+</html>
+    <script>
+        // DOM elements
+        const notesArea = document.getElementById('notesArea');
+        const saveBtn = document.getElementById('saveBtn');
+        const loadBtn = document.getElementById('loadBtn');
+        const clearBtn = document.getElementById('clearBtn');
+
+        // Check for saved notes on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedNotes = localStorage.getItem('userNotes');
+            if (savedNotes) {
+                notesArea.value = savedNotes;
+            }
+        });
+
+        // Save notes to localStorage
+        saveBtn.addEventListener('click', () => {
+            const notesText = notesArea.value.trim();
+            
+            // Validate that notes aren't empty
+            if (notesText === '') {
+                alert('Please enter some notes before saving.');
+                return;
+            }
+            
+            localStorage.setItem('userNotes', notesText);
+            alert('Notes saved successfully!');
+        });
+
+        // Load notes from localStorage
+        loadBtn.addEventListener('click', () => {
+            const savedNotes = localStorage.getItem('userNotes');
+            
+            if (savedNotes) {
+                notesArea.value = savedNotes;
+                alert('Notes loaded successfully!');
+            } else {
+                alert('No saved notes found.');
+            }
+        });
+
+        // Clear notes from localStorage and textarea
+        clearBtn.addEventListener('click', () => {
+            if (confirm('Are you sure you want to clear all notes?')) {
+                localStorage.removeItem('userNotes');
+                notesArea.value = '';
+                alert('Notes cleared successfully!');
+            }
+        });
+    </script>
