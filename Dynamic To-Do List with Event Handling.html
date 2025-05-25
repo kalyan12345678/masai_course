@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>To-Do List App</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+    }
+
+    #taskInput {
+      padding: 8px;
+      width: 300px;
+      margin-bottom: 10px;
+    }
+
+    #addTaskBtn {
+      padding: 8px 12px;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    li {
+      padding: 8px;
+      margin-bottom: 6px;
+      background-color: #f0f0f0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-radius: 4px;
+    }
+
+    .completed {
+      text-decoration: line-through;
+      color: gray;
+    }
+
+    .btn {
+      margin-left: 10px;
+      padding: 4px 8px;
+      cursor: pointer;
+      border: none;
+      border-radius: 4px;
+    }
+
+    .complete-btn {
+      background-color: lightgreen;
+    }
+
+    .delete-btn {
+      background-color: lightcoral;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>To-Do List</h2>
+
+  <input type="text" id="taskInput" placeholder="Enter your task here..." />
+  <button id="addTaskBtn">Add Task</button>
+
+  <ul id="taskList"></ul>
+
+  <script>
+    const taskInput = document.getElementById('taskInput');
+    const addTaskBtn = document.getElementById('addTaskBtn');
+    const taskList = document.getElementById('taskList');
+
+    addTaskBtn.addEventListener('click', () => {
+      const taskText = taskInput.value.trim();
+
+      if (taskText === '') {
+        alert('Task cannot be empty!');
+        return;
+      }
+
+      const li = document.createElement('li');
+      li.textContent = taskText;
+
+      const completeBtn = document.createElement('button');
+      completeBtn.textContent = 'Complete';
+      completeBtn.className = 'btn complete-btn';
+
+      const deleteBtn = document.createElement('button');
+      deleteBtn.textContent = 'Delete';
+      deleteBtn.className = 'btn delete-btn';
+
+      // Add event listeners for the buttons
+      completeBtn.addEventListener('click', () => {
+        li.classList.toggle('completed');
+      });
+
+      deleteBtn.addEventListener('click', () => {
+        li.remove();
+      });
+
+      // Append buttons to the list item
+      li.appendChild(completeBtn);
+      li.appendChild(deleteBtn);
+
+      // Add the list item to the task list
+      taskList.appendChild(li);
+
+      // Clear input
+      taskInput.value = '';
+    });
+
+    // Optional: allow adding task by pressing "Enter"
+    taskInput.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') {
+        addTaskBtn.click();
+      }
+    });
+  </script>
+
+</body>
+</html>
