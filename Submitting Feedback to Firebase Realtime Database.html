@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Feedback Form</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f2f2f2;
+      padding: 20px;
+    }
+    .container {
+      max-width: 500px;
+      margin: auto;
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    input, textarea {
+      width: 100%;
+      padding: 12px;
+      margin: 8px 0;
+      box-sizing: border-box;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    button {
+      width: 100%;
+      padding: 12px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+    button:hover {
+      background-color: #45a049;
+    }
+    #statusMessage {
+      margin-top: 15px;
+      font-weight: bold;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Submit Your Feedback</h1>
+    <form id="feedbackForm">
+      <input type="text" id="username" placeholder="Your Name" required />
+      <textarea id="message" placeholder="Your Feedback" required></textarea>
+      <button type="submit">Submit</button>
+    </form>
+    <p id="statusMessage"></p>
+  </div>
+
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+
+  <script>
+    // Your Firebase configuration for moviedatabase-1e69f
+    const firebaseConfig = {
+      apiKey: "AIzaSyDEXAMPLEKEY", // Replace with your actual API key
+      authDomain: "moviedatabase-1e69f.firebaseapp.com",
+      databaseURL: "https://moviedatabase-1e69f-default-rtdb.asia-southeast1.firebasedatabase.app",
+      projectId: "moviedatabase-1e69f",
+      storageBucket: "moviedatabase-1e69f.appspot.com",
+      messagingSenderId: "1234567890", // Replace with your actual sender ID
+      appId: "1:1234567890:web:abc123def456" // Replace with your actual app ID
+    };
+
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+
+    // Get a reference to the database service
+    const database = firebase.database();
+
+    document.getElementById("feedbackForm").addEventListener("submit", function (e) {
+      e.preventDefault();
+
+      const username = document.getElementById("username").value.trim();
+      const message = document.getElementById("message").value.trim();
+      const statusMessage = document.getElementById("statusMessage");
+
+      if (!username || !message) {
+        statusMessage.style.color = "red";
+        statusMessage.textContent = "Please fill in all fields.";
+        return;
+      }
+
+      // Push feedback to Firebase
+      database.ref('feedbacks').push({
+        username: username,
+        message: message,
+        timestamp: firebase.database.ServerValue.TIMESTAMP
+      })
+      .then(() => {
+        statusMessage.style.color = "green";
+        statusMessage.textContent = "Feedback submitted successfully!";
+        document.getElementById("feedbackForm").reset();
+      })
+      .catch((error) => {
+        statusMessage.style.color = "red";
+        statusMessage.textContent = "Error submitting feedback: " + error.message;
+        console.error("Error submitting feedback:", error);
+      });
+    });
+  </script>
+</body>
+</html>
