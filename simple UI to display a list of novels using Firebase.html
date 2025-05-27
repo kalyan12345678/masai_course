@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Library Management System</title>
+  <style>
+    body {
+      text-align: center;
+      margin: 20px;
+      font-family: Arial, sans-serif;
+    }
+    input, button {
+      margin: 5px;
+      padding: 10px;
+    }
+    #booklist {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+      justify-content: center;
+      margin-top: 20px;
+    }
+    .book-card {
+      background-color: rgb(130, 153, 130);
+      padding: 15px;
+      border-radius: 10px;
+      transition: opacity 0.3s ease;
+    }
+    .book-card.removed {
+      opacity: 0;
+    }
+  </style>
+</head>
+<body>
+  <h2>Firebase Books Database</h2>
+
+  <input type="text" id="title" placeholder="Title" />
+  <input type="text" id="author" placeholder="Author" />
+  <input type="number" id="price" placeholder="Price" />
+  <input type="number" id="release_year" placeholder="Release Year" />
+  <input type="text" id="genre" placeholder="Genre" />
+  <button onclick="saveBook()">Save Book</button>
+
+  <h3>Books List</h3>
+  <div id="booklist"></div>
+
+  <script>
+    const firebaseurl = 'https://books-85d3d-default-rtdb.asia-southeast1.firebasedatabase.app/books';
+    let currentEditId = null;
+
+    async function fetchbooks() {
+      const res = await fetch(`${firebaseurl}.json`);
+      const data = await res.json();
+      if (!data) return [];
+      return Object.entries(data).map(([id, book]) => ({ id, ...book }));
+    }
+
+    async function displaybooks() {
+      const books = await fetchbooks();
+      const booklist = document.getElementById('booklist');
+      booklist.innerHTML = "";
+
+      if (books.length === 0) {
+        booklist.innerHTML = "<p>No books found</p>";
+        return;
+      }
+
+      books.forEach((book) => {
+        const bookcard = document.createElement('div');
+        bookcard.className = "book-card";
+        bookcard.setAttribute('data-id', book.id);
+        bookcard.innerHTML = `
+          <h3>${book.title || ''}</h3>
+          <p><strong>Author:</strong> ${book.author || ''}</p>
+          <p><strong>Price:</strong> ₹${book.price || ''}</p>
+          <p><strong>Year:</strong> ${book.release_year || ''}</p>
+          <p><strong>Genre:</strong> ${book.genre || ''}</p>
+          <button onclick="editbook('${book.id}', '${book.title || ''}', '${book.author || ''}', '${book.price || ''}', '${book.release_year || ''}', '${book.genre || ''}')">Edit</button>
+          <button onclick="deletebook('${book.id}')">Delete</button>
+        `;
+        booklist.appendChild(bookcard);
+      });
+    }
+
+    async function deletebook(bookId) {
+      const bookElement = document.querySelector(`[data-id="${bookId}"]`);
+      if (bookElement) {
+        bookElement.classList.add("removed");
+        setTimeout(async () => {
+          await fetch(`${firebaseurl}/${bookId}.json`, { method: 'DELETE' });
+          displaybooks();
+        }, 300);
+      } else {
+        await fetch(`${firebaseurl}/${bookId}.json`, { method: 'DELETE' });
+        displaybooks();
+      }
+    }
+
+    function editbook(id, title, author, price, release_year, genre) {
+      currentEditId = id;
+      document.getElementById('title').value = title;
+      document.getElementById('author').value = author;
+      document.getElementById('price').value = price;
+      document.getElementById('release_year').value = release_year;
+      document.getElementById('genre').value = genre;
+    }
+
+    async function saveBook() {
+      const title = document.getElementById('title').value.trim();
+      const author = document.getElementById('author').value.trim();
+      const price = document.getElementById('price').value;
+      const release_year = document.getElementById('release_year').value;
+      const genre = document.getElementById('genre').value.trim();
+
+      if (!title || !author || !price || !release_year || !genre) {
+        alert("Please fill in all fields.");
+        return;
+      }
+
+      const bookData = { title, author, price, release_year, genre };
+
+      if (currentEditId) {
+        await fetch(`${firebaseurl}/${currentEditId}.json`, {
+          method: 'PUT',
+          body: JSON.stringify(bookData)
+        });
+        currentEditId = null;
+      } else {
+        await fetch(`${firebaseurl}.json`, {
+          method: 'POST',
+          body: JSON.stringify(bookData)
+        });
+      }
+
+      // Clear form
+      document.getElementById('title').value = '';
+      document.getElementById('author').value = '';
+      document.getElementById('price').value = '';
+      document.getElementById('release_year').value = '';
+      document.getElementById('genre').value = '';
+
+      displaybooks();
+    }
+
+    displaybooks();
+  </script>
+</body>
+</html>
