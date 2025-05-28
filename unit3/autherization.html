@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+  }
+
+  body {
+    background: linear-gradient(135deg, #c3ecf7, #f5c6ec);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2rem;
+    background-image: url('https://www.transparenttextures.com/patterns/batthern.png');
+  }
+
+  h2 {
+    font-size: 2.2rem;
+    color: #222;
+    margin-bottom: 1.5rem;
+    text-shadow: 1px 1px 1px #fff;
+  }
+
+  .container {
+    background: rgba(255, 255, 255, 0.25);
+    backdrop-filter: blur(12px);
+    border-radius: 16px;
+    padding: 2rem;
+    margin: 1rem;
+    width: 90%;
+    max-width: 400px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+  }
+
+  h3 {
+    margin-bottom: 1rem;
+    color: #333;
+    text-align: center;
+  }
+
+  input,
+  select {
+    width: 100%;
+    padding: 0.75rem;
+    margin-bottom: 1rem;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: 1rem;
+    background: rgba(255, 255, 255, 0.6);
+    backdrop-filter: blur(4px);
+    transition: 0.3s;
+  }
+
+  input:focus,
+  select:focus {
+    border-color: #007bff;
+    outline: none;
+    background: #fff;
+  }
+
+  button {
+    width: 100%;
+    padding: 0.75rem;
+    border: none;
+    border-radius: 8px;
+    background: linear-gradient(145deg, #007bff, #00bfff);
+    color: #fff;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+
+  button:hover {
+    background: linear-gradient(145deg, #0056b3, #008ecc);
+  }
+
+  #admin-container {
+    margin-top: 1.5rem;
+    padding-top: 1rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.4);
+  }
+
+  .hidden {
+    display: none !important;
+  }
+
+  p {
+    font-size: 0.9rem;
+    color: #e74c3c;
+    margin-top: -0.5rem;
+    margin-bottom: 1rem;
+    text-align: center;
+  }
+
+  #user-email, #user-role {
+    color: #007bff;
+    font-weight: 600;
+  }
+
+  @media (max-width: 600px) {
+    .container {
+      width: 100%;
+    }
+  }
+</style>
+
+
+</head>
+<body>
+   
+      <h2>Firebase Authentication</h2>
+  <!-- signup  -->
+      <div id="signup-container" class="container">
+        <h3>Sign Up</h3>
+      <input type="email"  id="signup-email" placeholder="enter email">
+      <input type="password" id="signup-password" placeholder="enter password">
+      <select id="role">
+        <option value="user" >user</option>
+        <option value="admin">admin</option>
+      </select>
+      <button id="signup-btn">Sign Up</button>
+      <p id="signup-message"></p>
+      </div>
+
+
+
+   <!-- login  -->
+        <div id="login-container" class="container">
+        <h3>login</h3>
+      <input type="email"  id="login-email" placeholder="enter email">
+      <input type="password" id="login-password" placeholder="enter password">
+      <button id="login-btn">login</button>
+      <p id="login-message"></p>
+      </div>
+      
+      
+      <!-- dashboard -->
+
+      <div id="dashboard-container" class="container">
+        <h3>Welcome, <span id="user-email"></span>( <span id="user-role"></span> )</h3>
+        <button id="logout-btn">logout</button>
+        
+        <div id="admin-container">
+            <h3>admin actions</h3>
+            <button id="delete-users-btn">delete all users</button>
+        </div>
+      </div>
+</body>
+</html>
+
+    <script type="module">
+  // Import the functions you need from the SDKs you need
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-app.js";
+  import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-analytics.js";
+  import { getAuth,createUserWithEmailAndPassword ,signInWithEmailAndPassword ,signOut,onAuthStateChanged  } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-auth.js";
+  import { 
+    getFirestore,
+    doc,
+    setDoc,
+    getDoc
+  } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-firestore.js";
+  // TODO: Add SDKs for Firebase products that you want to use
+  // https://firebase.google.com/docs/web/setup#available-libraries
+
+  // Your web app's Firebase configuration
+  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+  const firebaseConfig = {
+    apiKey: "AIzaSyDycPYqw_fHHdpiiqGlWf6NPR9fZ1j7Sek",
+    authDomain: "auth-8f9e2.firebaseapp.com",
+    projectId: "auth-8f9e2",
+    storageBucket: "auth-8f9e2.firebasestorage.app",
+    messagingSenderId: "1036381096180",
+    appId: "1:1036381096180:web:7db7aa9d8f42053b18f6a1",
+    measurementId: "G-HZNQZXXC00"
+  };
+
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+  const analytics = getAnalytics(app);
+  const auth = getAuth(app);
+  const db = getFirestore(app);
+
+   document.getElementById('signup-btn').addEventListener("click",async()=>{
+     
+    const email= document.getElementById('signup-email').value
+    const password= document.getElementById('signup-password').value
+    const role= document.getElementById('role').value
+    try{
+        const usercredentials= await createUserWithEmailAndPassword(auth,email,password)
+        console.log(usercredentials)
+        const user = usercredentials.user
+
+        // save user role in firestore 
+        await setDoc(doc(db,"users",user.uid),{
+            email : user.email,
+            role : role
+        })
+
+        document.getElementById('signup-message').innerText="signup successful"
+
+    }catch(error){
+
+        document.getElementById('signup-message').innerText=error.message 
+    }
+   })
+
+
+//    lod in function 
+
+    document.getElementById("login-btn").addEventListener("click",async()=>{
+  
+      const email= document.getElementById('login-email').value
+      const password= document.getElementById('login-password').value
+    
+      try{
+
+        const usercredentials= await signInWithEmailAndPassword(auth,email,password)
+        document.getElementById('login-message').innerText="login successful"
+       }catch{
+        document.getElementById('login-message').innerText=error.message 
+       }
+    })
+
+    // logout function
+
+    document.getElementById('logout-btn').addEventListener('click',async()=>{
+        await signOut(auth)
+         alert('logged out successfully')
+    })
+
+    // listen for authentication state change
+
+  onAuthStateChanged(auth, async (user) => {
+  if (user) {
+    document.getElementById('user-email').innerText = user.email;
+
+    const userDoc = await getDoc(doc(db, "users", user.uid));
+    if (userDoc.exists()) {
+      const role = userDoc.data().role; // ✅ FIXED HERE: role is declared and scoped correctly
+      document.getElementById("user-role").innerText = role;
+
+      document.getElementById('signup-container').classList.add('hidden');
+      document.getElementById('login-container').classList.add('hidden');
+      document.getElementById('dashboard-container').classList.remove('hidden');
+
+      if (role === 'admin') {
+        document.getElementById('admin-container').classList.remove('hidden'); // ✅ FIXED HERE: check moved inside the correct scope
+      } else {
+        document.getElementById('admin-container').classList.add('hidden'); // ✅ FIXED HERE: hide admin for non-admins
+      }
+    }
+  } else {
+    document.getElementById('signup-container').classList.remove('hidden');
+    document.getElementById('login-container').classList.remove('hidden');
+    document.getElementById('dashboard-container').classList.add('hidden');
+  }
+});
+
+
+</script>

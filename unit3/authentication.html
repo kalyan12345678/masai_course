@@ -4,11 +4,124 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <style>
-      .hidden{
-        display: none;
-      }
-    </style>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
+
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: linear-gradient(135deg, #1f4037, #99f2c8);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    padding: 20px;
+    color: #fff;
+  }
+
+  h2 {
+    font-size: 36px;
+    font-weight: 600;
+    margin-bottom: 20px;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+  }
+
+  .auth-card {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    padding: 30px 25px;
+    margin: 10px;
+    width: 100%;
+    max-width: 340px;
+    transition: all 0.3s ease;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+  }
+
+  h3 {
+    text-align: center;
+    font-size: 24px;
+    margin-bottom: 20px;
+    color: #fff;
+  }
+
+  input[type="email"],
+  input[type="password"] {
+    width: 100%;
+    padding: 12px;
+    margin: 12px 0;
+    border: none;
+    border-radius: 10px;
+    font-size: 15px;
+    outline: none;
+    background: rgba(255, 255, 255, 0.2);
+    color: #fff;
+    transition: 0.3s;
+  }
+
+  input::placeholder {
+    color: rgba(255, 255, 255, 0.7);
+  }
+
+  input:focus {
+    background: rgba(255, 255, 255, 0.3);
+    border: 1px solid #fff;
+  }
+
+  button {
+    width: 100%;
+    padding: 12px;
+    margin-top: 12px;
+    border: none;
+    border-radius: 10px;
+    background-color: #00f2fe;
+    color: #1f4037;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  button:hover {
+    background-color: #38ef7d;
+  }
+
+  p {
+    text-align: center;
+    font-size: 14px;
+    margin-top: 12px;
+    color: #e0f7f1;
+  }
+
+  .hidden {
+    display: none;
+  }
+
+  @media (max-width: 400px) {
+    .auth-card {
+      width: 100%;
+      padding: 25px 20px;
+    }
+
+    h2 {
+      font-size: 28px;
+    }
+
+    h3 {
+      font-size: 20px;
+    }
+  }
+</style>
+
+
 </head>
 <body>
    
@@ -118,4 +231,4 @@
       document.getElementById('logout-container').classList.add('hidden')
     }
    })
-</script>
+</script> 
