@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background: linear-gradient(to right, #4facfe, #00f2fe);
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+
+  h2 {
+    text-align: center;
+    color: #fff;
+    margin-bottom: 30px;
+    font-size: 32px;
+  }
+
+  #signup-container,
+  #login-container,
+  #logout-container {
+    background-color: #ffffff;
+    padding: 30px 25px;
+    margin: 10px;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    width: 300px;
+  }
+
+  h3 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 20px;
+  }
+
+  input[type="email"],
+  input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-sizing: border-box;
+    font-size: 14px;
+  }
+
+  button {
+    width: 100%;
+    padding: 10px;
+    background-color: #4facfe;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+
+  button:hover {
+    background-color: #00c6ff;
+  }
+
+  p {
+    margin-top: 10px;
+    text-align: center;
+    font-size: 14px;
+    color: #333;
+  }
+
+  #logout-container h3 {
+    font-size: 18px;
+    color: #333;
+  }
+
+  .hidden {
+    display: none;
+  }
+</style>
+
+</head>
+<body>
+   
+      <h2>Firebase Authentication</h2>
+  <!-- signup  -->
+      <div id="signup-container">
+        <h3>Sign Up</h3>
+      <input type="email"  id="signup-email" placeholder="enter email">
+      <input type="password" id="signup-password" placeholder="enter password">
+      <button id="signup-btn">Sign Up</button>
+      <p id="signup-message"></p>
+      </div>
+
+
+
+   <!-- login  -->
+        <div id="login-container">
+        <h3>login</h3>
+      <input type="email"  id="login-email" placeholder="enter email">
+      <input type="password" id="login-password" placeholder="enter password">
+      <button id="login-btn">login</button>
+      <p id="login-message"></p>
+      </div>
+      
+      
+      <!-- logout -->
+
+      <div id="logout-container">
+        <h3>Welcome, <span id="user-email"></span></h3>
+        <button id="logout-btn">logout</button>
+      </div>
+</body>
+</html>
+
+    <script type="module">
+  // Import the functions you need from the SDKs you need
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-app.js";
+  import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-analytics.js";
+  import { getAuth,createUserWithEmailAndPassword ,signInWithEmailAndPassword ,signOut,onAuthStateChanged  } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-auth.js";
+  // TODO: Add SDKs for Firebase products that you want to use
+  // https://firebase.google.com/docs/web/setup#available-libraries
+
+  // Your web app's Firebase configuration
+  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+  const firebaseConfig = {
+    apiKey: "AIzaSyDycPYqw_fHHdpiiqGlWf6NPR9fZ1j7Sek",
+    authDomain: "auth-8f9e2.firebaseapp.com",
+    projectId: "auth-8f9e2",
+    storageBucket: "auth-8f9e2.firebasestorage.app",
+    messagingSenderId: "1036381096180",
+    appId: "1:1036381096180:web:7db7aa9d8f42053b18f6a1",
+    measurementId: "G-HZNQZXXC00"
+  };
+
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+  const analytics = getAnalytics(app);
+  const auth = getAuth(app);
+
+  document.getElementById('signup-btn').addEventListener("click",()=>{
+    let email= document.getElementById('signup-email').value
+    let password= document.getElementById('signup-password').value
+
+    createUserWithEmailAndPassword(auth,email,password)
+    .then((usercredentials)=>{
+      document.getElementById('signup-message').innerText="signup successful"
+    })
+    .catch((error)=>{
+       document.getElementById('signup-message').innerText=error.message 
+    }) 
+
+  })
+
+  document.getElementById("login-btn").addEventListener("click",()=>{
+    let email= document.getElementById('login-email').value
+    let password= document.getElementById('login-password').value
+    signInWithEmailAndPassword(auth,email,password)
+        .then((usercredentials)=>{
+      document.getElementById('login-message').innerText="login successful"
+    })
+    .catch((error)=>{
+       document.getElementById('login-message').innerText=error.message 
+    })
+  })
+  
+
+      document.getElementById('logout-btn').addEventListener('click',()=>{
+      signOut(auth)
+      .then(()=>{
+        alert('logged out successfully')
+      })
+      .catch((error)=>{
+        alert(error.message)
+      })
+    })
+
+   onAuthStateChanged(auth,(user)=>{
+    if(user){
+      document.getElementById('user-email').innerText=user.email
+      document.getElementById('signup-container').classList.add('hidden')
+      document.getElementById('login-container').classList.add('hidden')
+      document.getElementById('logout-container').classList.remove('hidden')
+    }
+    else{
+      document.getElementById('signup-container').classList.remove('hidden')
+      document.getElementById('login-container').classList.remove('hidden')
+      document.getElementById('logout-container').classList.add('hidden')
+    }
+   })
+</script> 
