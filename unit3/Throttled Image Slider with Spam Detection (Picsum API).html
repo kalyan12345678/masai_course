@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Throttled Image Slider</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding: 20px;
+    }
+    img {
+      width: 600px;
+      height: 400px;
+      object-fit: cover;
+      border-radius: 10px;
+      margin-bottom: 10px;
+    }
+    button {
+      padding: 10px 20px;
+      margin: 10px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    #slideNumber {
+      font-weight: bold;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <h2>Image Slider (Throttled)</h2>
+  <img id="image" src="https://picsum.photos/600/400?random=1" alt="Random Image" />
+  <div>
+    <button id="prevBtn">Previous</button>
+    <button id="nextBtn">Next</button>
+  </div>
+  <div id="slideNumber">Slide 1</div>
+
+  <script>
+    let currentSlide = 1;
+    let isThrottled = false;
+    let clickCount = 0;
+    let clickTimer;
+
+    const imageEl = document.getElementById('image');
+    const slideNumberEl = document.getElementById('slideNumber');
+
+    function updateImage() {
+      imageEl.src = `https://picsum.photos/600/400?random=${Date.now()}`;
+      slideNumberEl.textContent = `Slide ${currentSlide}`;
+    }
+
+    function handleClick(direction) {
+      clickCount++;
+
+      // Spam detection: if more than 3 clicks in a second
+      if (clickCount > 3) {
+        alert("Chill chill, loading it!!");
+        return;
+      }
+
+      if (isThrottled) return;
+
+      isThrottled = true;
+      setTimeout(() => {
+        isThrottled = false;
+      }, 1000); // throttle duration
+
+      if (direction === 'next') {
+        currentSlide++;
+      } else {
+        currentSlide = Math.max(1, currentSlide - 1);
+      }
+
+      updateImage();
+    }
+
+    document.getElementById('nextBtn').addEventListener('click', () => handleClick('next'));
+    document.getElementById('prevBtn').addEventListener('click', () => handleClick('prev'));
+
+    // Reset click count every 1 second
+    setInterval(() => {
+      clickCount = 0;
+    }, 1000);
+  </script>
+</body>
+</html>
