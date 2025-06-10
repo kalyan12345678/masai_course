@@ -122,8 +122,8 @@
   } else {
     detailDiv.style.display = 'none';
 
-    async function fetchCharacters(page = 1) {
-      let url = `https://rickandmortyapi.com/api/character?page=${page}`;
+    async function fetchCharacters(currentPage) {
+      let url = `https://rickandmortyapi.com/api/character?page=${currentPage}`;
       if (searchQuery) url += `&name=${searchQuery}`;
       if (status) url += `&status=${status}`;
       if (species) url += `&species=${species}`;
@@ -147,6 +147,7 @@
       }
     }
 
+    // Simplified debounce with default 300ms delay
     function debounce(fn, delay = 300) {
       let timeout;
       return function(...args) {
