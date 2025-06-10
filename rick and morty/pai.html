@@ -146,11 +146,12 @@
         gallery.innerHTML = "<p>No characters found.</p>";
       }
     }
-    function debounce(fn, delay) {
+
+    function debounce(fn, delay = 300) {
       let timeout;
-      return (...args) => {
+      return function(...args) {
         clearTimeout(timeout);
-        timeout = setTimeout(() => fn(...args), delay);
+        timeout = setTimeout(() => fn.apply(this, args), delay);
       };
     }
 
@@ -158,7 +159,7 @@
       searchQuery = e.target.value.toLowerCase();
       currentPage = 1;
       fetchCharacters();
-    }, 300);
+    });
 
     searchInput.addEventListener("input", handleSearch);
     statusFilter.addEventListener("change", (e) => {
