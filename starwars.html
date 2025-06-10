@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Star Wars Gallery</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      margin: 0;
+      background-color: #111;
+      color: #fff;
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+    }
+    .card {
+      background-color: #222;
+      border-radius: 10px;
+      padding: 20px;
+      text-align: center;
+      /* cursor: pointer; */
+      transition: transform 0.2s;
+    }
+    .card:hover {
+      transform: scale(1.03);
+      box-shadow: 0 0 10px #ffc107;
+    }
+    .card img {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-bottom: 10px;
+    }
+    .pagination {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 20px;
+    }
+    button {
+      padding: 10px 20px;
+      background-color: #ffc107;
+      border: none;
+      color: #000;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    button:disabled {
+      background-color: #555;
+      cursor: not-allowed;
+    }
+    footer {
+      margin-top: 30px;
+      text-align: center;
+      font-size: 14px;
+      border-top: 1px solid #444;
+      padding-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Star Wars Characters</h1>
+  <div class="grid" id="characterGrid"></div>
+  <div class="pagination">
+    <button id="prevBtn">Previous</button>
+    <button id="nextBtn">Next</button>
+  </div>
+  <footer id="clock"></footer>
+
+  <script>
+    const ITEMS_PER_PAGE = 6;
+    let characters = [];
+    let currentPage = 1;
+
+    async function fetchCharacters() {
+      const res = await fetch("https://akabab.github.io/starwars-api/api/all.json");
+      characters = await res.json();
+      renderPage();
+    }
+
+    function renderPage() {
+      const start = (currentPage - 1) * ITEMS_PER_PAGE;
+      const current = characters.slice(start, start + ITEMS_PER_PAGE);
+      const grid = document.getElementById("characterGrid");
+      grid.innerHTML = "";
+
+      current.forEach(char => {
+        const card = document.createElement("div");
+        card.className = "card";
+        card.onclick = () => window.open(`https://akabab.github.io/starwars-api/api/id/${char.id}.json`, "_blank");
+        card.innerHTML = `
+          <img src="${char.image}" alt="${char.name}" />
+          <h3>${char.name}</h3>
+          <p>${char.species}</p>
+          <p>${char.gender}</p>
+        `;
+        grid.appendChild(card);
+      });
+
+      document.getElementById("prevBtn").disabled = currentPage === 1;
+      document.getElementById("nextBtn").disabled = start + ITEMS_PER_PAGE >= characters.length;
+    }
+
+    document.getElementById("prevBtn").addEventListener("click", () => {
+      currentPage = Math.max(1, currentPage - 1);
+      renderPage();
+    });
+
+    document.getElementById("nextBtn").addEventListener("click", () => {
+      const maxPages = Math.ceil(characters.length / ITEMS_PER_PAGE);
+      if (currentPage < maxPages) currentPage++;
+      renderPage();
+    });
+
+    function updateClock() {
+      const now = new Date();
+      const options = {
+        weekday: "long",
+        month: "long",
+        day: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit",
+        hour12: false
+      };
+      document.getElementById("clock").textContent = now.toLocaleString("en-US", options);
+    }
+
+    setInterval(updateClock, 1000);
+    fetchCharacters();
+  </script>
+</body>
+</html>
