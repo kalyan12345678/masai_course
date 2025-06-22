@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>React SPA Without Router</title>
+
+  <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+ 
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background-color: #f4f4f4;
+    }
+    .navbar {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      background-color: #282c34;
+      padding: 15px;
+    }
+    .nav-link {
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    .content {
+      text-align: center;
+      padding: 50px;
+      font-size: 1.5rem;
+    }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script type="text/babel">
+    const { useState } = React;
+
+    function App() {
+      const [activePage, setActivePage] = useState("Home");
+
+      const renderContent = () => {
+        switch (activePage) {
+          case "Home":
+            return <div className="content">🏠 Welcome to the Home Page</div>;
+          case "About":
+            return <div className="content">📖 Learn more About Us</div>;
+          case "Contact":
+            return <div className="content">📞 Contact Us anytime</div>;
+          default:
+            return <div className="content">Page not found</div>;
+        }
+      };
+
+      return (
+        <div>
+          <div className="navbar">
+            <span className="nav-link" onClick={() => setActivePage("Home")}>Home</span>
+            <span className="nav-link" onClick={() => setActivePage("About")}>About</span>
+            <span className="nav-link" onClick={() => setActivePage("Contact")}>Contact</span>
+          </div>
+          {renderContent()}
+        </div>
+      );
+    }
+
+    const root = ReactDOM.createRoot(document.getElementById("root"));
+    root.render(<App />);
+  </script>
+</body>
+</html>
