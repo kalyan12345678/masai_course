@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Product Card</title>
+  </head>
+  <body>
+    <div id="root"></div>
+
+    <script
+      crossorigin
+      src="https://unpkg.com/react@18/umd/react.development.js"
+    ></script>
+    <script
+      crossorigin
+      src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"
+    ></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios@1.6.7/dist/axios.min.js"></script>
+
+    <script type="text/babel">
+      const { useState } = React;
+
+      function App() {
+        const [data, setData] = useState([]);
+        const [loading, setLoading] = useState(false);
+        const [error, setError] = useState(null);
+
+        async function fetchData() {
+          setLoading(true);
+          setError(null);
+          try {
+            const res = await axios.get("https://fakestoreapi.com/products");
+            setData(res.data); 
+          } catch (err) {
+            setError("Failed to fetch data.");
+          } finally {
+            setLoading(false); 
+          }
+        }
+
+        function clearData() {
+          setData([]);
+        }
+
+        return (
+          <>
+            <h1>Product Card</h1>
+            <button onClick={fetchData}>Fetch Product</button>
+            <button onClick={clearData}>Clear Data</button>
+
+            {loading && <p>Loading...</p>}
+            {error && <p style={{ color: "red" }}>{error}</p>}
+
+            <div className="product-grid">
+              {data.map((product) => (
+                <div className="product-card" key={product.id}>
+                  <img src={product.image} alt={product.title} />
+                  <h3>{product.title}</h3>
+                  <p>${product.price}</p>
+                </div>
+              ))}
+            </div>
+
+            <style>
+              {`
+                .product-grid {
+                  display: grid;
+                  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+                  
+                }
+                .product-card {
+                  border: 1px solid #ddd;
+                  padding: 16px;
+                  text-align: center;
+                  border-radius: 8px;
+                  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                }
+                .product-card img {
+                  width: 100%;
+                  height: auto;
+                  border-radius: 8px;
+                }
+                .product-card h3 {
+                  font-size: 1.2rem;
+                  margin: 10px 0;
+                }
+                .product-card p {
+                  font-size: 1rem;
+                  color: #333;
+                }
+              `}
+            </style>
+          </>
+        );
+      }
+
+      const root = ReactDOM.createRoot(document.getElementById("root"));
+      root.render(<App />);
+    </script>
+  </body>
+</htm
