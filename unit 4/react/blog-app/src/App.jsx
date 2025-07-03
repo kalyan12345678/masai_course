@@ -3,7 +3,7 @@ import { Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Home from "./pages/Home";
 import About from "./pages/About";
-import PostDetails from "./pages/PostDetails";
+import PostDetails from "./pages/postDetails";
 
 export default function App() {
   return (
@@ -17,3 +17,6 @@ export default function App() {
     </>
   );
 }
+
+
+
