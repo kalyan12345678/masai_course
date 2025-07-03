@@ -39,7 +39,7 @@ const Tasks = () => {
           placeholder="Description (optional)"
           onChange={(e) => setDesc(e.target.value)}
         />
-        <button type="submit" disabled={!title.trim()}>Add Task</button>
+        <button type="submit" >Add Task</button>
       </form>
 
       {tasks.length === 0 ? (
