@@ -1,0 +1,140 @@
+/* File: src/styles/App.css */
+body {
+  margin: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  transition: background 0.3s, color 0.3s;
+}
+
+.light {
+  background-color: #f4f4f4;
+  color: #111;
+}
+
+.dark {
+  background-color: #121212;
+  color: #eee;
+}
+
+.auth-container, .dashboard, .habit-form, .habit-card, .analytics {
+  max-width: 600px;
+  margin: auto;
+  padding: 1rem;
+  border-radius: 1rem;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  background-color: var(--card-bg);
+}
+
+input, select, button {
+  width: 100%;
+  padding: 0.6rem;
+  margin: 0.3rem 0;
+  border-radius: 0.5rem;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+}
+
+button {
+  background-color: #4ade80;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #22c55e;
+}
+
+canvas {
+  margin: 0.5rem auto;
+  display: block;
+}
+
+/* Updated Navbar Styles */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  background: linear-gradient(90deg, #16a085, #2c3e50);
+  color: white;
+  border-bottom: 2px solid #0f0f0f;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.navbar h1 {
+  margin: 0;
+  font-weight: 700;
+  font-size: 1.5rem;
+}
+
+.navbar-controls {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.navbar-links a {
+  color: white;
+  margin-right: 1rem;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+
+.navbar-links a:hover {
+  color: #ffd700;
+}
+
+.logout-btn {
+  background: #10b981;
+  padding: 0.5rem 1rem;
+  border: none;
+  color: white;
+  font-weight: bold;
+  border-radius: 0.5rem;
+  cursor: pointer;
+}
+
+.logout-btn:hover {
+  background: #059669;
+}
+
+.toggle-btn {
+  background: #facc15;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 2rem;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.toggle-btn:hover {
+  background: #eab308;
+}
+
+@media (max-width: 768px) {
+  .habit-card, .auth-container, .dashboard {
+    padding: 1rem;
+    font-size: 0.95rem;
+  }
+  .navbar {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .navbar-controls {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+}
+
+/* Theme variable */
+:root {
+  --card-bg: #ffffff;
+}
+
+.dark :root {
+  --card-bg: #1e1e1e;
+}
