@@ -1,71 +1,30 @@
-import React, { useEffect, useState } from 'react';
-import './App.css';
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { Box, Flex, Heading } from "@chakra-ui/react";
+import CoffeeList from "./components/CoffeeList";
+import Sidebar from "./components/Sidebar";
+import { getCoffee } from "./redux/coffee/coffee.actions";
 
-function App() {
-  const [todos, setTodos] = useState([]);
-  const [currentPage, setCurrentPage] = useState(1);
-  const todosPerPage = 10;
+const App = () => {
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    fetch('https://jsonplaceholder.typicode.com/todos')
-      .then(res => res.json())
-      .then(data => setTodos(data))
-      .catch(err => console.error('Error fetching todos:', err));
-  }, []);
-
-  const totalPages = Math.ceil(todos.length / todosPerPage);
-  const startIndex = (currentPage - 1) * todosPerPage;
-  const currentTodos = todos.slice(startIndex, startIndex + todosPerPage);
-
-  const handlePageChange = (page) => {
-    setCurrentPage(page);
-  };
-
-  const handleNext = () => {
-    if (currentPage < totalPages) setCurrentPage(prev => prev + 1);
-  };
-
-  const handlePrevious = () => {
-    if (currentPage > 1) setCurrentPage(prev => prev - 1);
-  };
+    dispatch(getCoffee());
+  }, [dispatch]);
 
   return (
-    <div className="App">
-      <h1>Todos Pagination</h1>
-
-      <ul className="todo-list">
-        {currentTodos.map(todo => (
-          <li key={todo.id}>
-            <span>{todo.id}. </span>
-            {todo.title}
-          </li>
-        ))}
-      </ul>
-
-      <div className="pagination">
-        <button onClick={handlePrevious} disabled={currentPage === 1}>
-          Previous
-        </button>
-
-        {[...Array(totalPages).keys()].map((_, idx) => {
-          const page = idx + 1;
-          return (
-            <button
-              key={page}
-              className={`page-btn ${page === currentPage ? 'active' : ''}`}
-              onClick={() => handlePageChange(page)}
-            >
-              {page}
-            </button>
-          );
-        })}
-
-        <button onClick={handleNext} disabled={currentPage === totalPages}>
-          Next
-        </button>
-      </div>
-    </div>
+    <Box p={4}>
+      <Heading mb={6}>Coffee List</Heading>
+      <Flex>
+        <Box w="20%">
+          <Sidebar />
+        </Box>
+        <Box w="80%">
+          <CoffeeList />
+        </Box>
+      </Flex>
+    </Box>
   );
-}
+};
 
 export default App;

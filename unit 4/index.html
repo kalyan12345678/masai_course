@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+  <body>
+    <input id="search" placeholder="Search books..." />
+    <ul id="list"></ul>
+
+    <script>
+      const books = ["Clean Code", "Deep Work", "The Alchemist"];
+      const input = document.getElementById("search");
+      const list = document.getElementById("list");
+
+      function render() {
+        const query = input.value;
+
+        for (let i = 0; i < books.length; i++) {
+          if (books[i].includes(query)) {
+            const li = document.createElement("li");
+            li.textContent = books[i];
+            list.appendChild(li);
+          }
+        }
+      }
+
+      input.addEventListener("input", render);
+      render();
+    </script>
+  </body>
+</html>
