@@ -1,8 +1,14 @@
+
 body {
   margin: 0;
   padding: 0;
-  font-family: 'Segoe UI', sans-serif;
-  background-color: #f7f7f7;
+  font-family: 'Segoe UI', Arial, sans-serif;
+  background: linear-gradient(120deg, #f0f4f8 0%, #d9e7fa 100%);
+  transition: background 0.4s;
+}
+
+body[data-theme='dark'] {
+  background: linear-gradient(120deg, #232526 0%, #414345 100%);
 }
 
 .App {
@@ -10,31 +16,116 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 100vh;
+  min-height: 100vh;
+  transition: background 0.4s;
+}
+
+.App.dark h1,
+.App.dark label,
+.App.dark .history-list h3 {
+  color: #fff;
 }
 
 h1 {
   font-size: 2.5rem;
   margin-bottom: 2rem;
   color: #2c3e50;
+  transition: color 0.4s;
+}
+
+.counter-animate {
+  animation: pop 0.35s cubic-bezier(.68,-0.55,.27,1.55);
+}
+
+@keyframes pop {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.25); color: #e67e22; }
+  100% { transform: scale(1); }
 }
 
 .buttons {
   display: flex;
   gap: 1rem;
+  margin-bottom: 1.5rem;
 }
 
-button {
+button, .theme-toggle {
   padding: 0.75rem 1.5rem;
   font-size: 1.1rem;
-  background-color: #3498db;
-  color: white;
+  background: linear-gradient(90deg, #2563eb 0%, #60a5fa 100%);
+  color: #fff;
   border: none;
   border-radius: 8px;
   cursor: pointer;
-  transition: background-color 0.2s ease;
+  transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
+  box-shadow: 0 2px 8px rgba(37,99,235,0.12);
+  outline: none;
+}
+button:hover, .theme-toggle:hover {
+  background: linear-gradient(90deg, #1e40af 0%, #2563eb 100%);
+  transform: scale(1.06);
+  box-shadow: 0 4px 16px rgba(37,99,235,0.18);
 }
 
-button:hover {
-  background-color: #2980b9;
+.theme-toggle {
+  margin-bottom: 1.5rem;
+  background: linear-gradient(90deg, #232526 0%, #414345 100%);
+  color: #fff;
+}
+.App.light .theme-toggle {
+  background: linear-gradient(90deg, #f0f4f8 0%, #d9e7fa 100%);
+  color: #232526;
+}
+
+.set-controls {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 2rem;
+}
+.set-controls input[type='number'] {
+  padding: 0.6rem 1rem;
+  border-radius: 6px;
+  border: 1px solid #bdbdbd;
+  font-size: 1.1rem;
+  width: 140px;
+  outline: none;
+  transition: border 0.2s;
+}
+.set-controls input[type='number']:focus {
+  border: 1.5px solid #2563eb;
+}
+
+.history-list {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+  padding: 18px 28px 12px 28px;
+  min-width: 220px;
+  margin-top: 1.5rem;
+  margin-bottom: 1.5rem;
+  transition: background 0.4s;
+}
+.App.dark .history-list {
+  background: #232526;
+  color: #fff;
+}
+.history-list h3 {
+  margin: 0 0 10px 0;
+  font-size: 1.1rem;
+  color: #2563eb;
+}
+.history-list ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  max-height: 120px;
+  overflow-y: auto;
+}
+.history-list li {
+  font-size: 1rem;
+  padding: 4px 0 4px 8px;
+  border-bottom: 1px solid #e0e0e0;
+}
+.history-list li:last-child {
+  border-bottom: none;
 }

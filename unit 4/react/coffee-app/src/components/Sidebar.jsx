@@ -10,10 +10,10 @@ const Sidebar = () => {
   };
 
   return (
-    <VStack spacing={4} align="start" p={4}>
-      <Button onClick={() => handleSort("")}>Default</Button>
-      <Button onClick={() => handleSort("asc")}>Sort by Price: Low to High</Button>
-      <Button onClick={() => handleSort("desc")}>Sort by Price: High to Low</Button>
+    <VStack spacing={4} align="start" p={4} bg="gray.50" borderRadius="md" boxShadow="sm">
+      <Button colorScheme="teal" variant="solid" w="full" onClick={() => handleSort("")}>Default Order</Button>
+      <Button colorScheme="teal" variant="outline" w="full" onClick={() => handleSort("asc")}>Sort by Price: Low to High</Button>
+      <Button colorScheme="teal" variant="outline" w="full" onClick={() => handleSort("desc")}>Sort by Price: High to Low</Button>
     </VStack>
   );
 };
