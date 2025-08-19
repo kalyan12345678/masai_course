@@ -1,0 +1,7 @@
+[
+  { "id": 1, "name": "Paracetamol 500mg", "brand": "Cipla", "category": "Pain Relief", "price": 35,  "inStock": true,  "rating": 4.5 },
+  { "id": 2, "name": "Amoxicillin 250mg", "brand": "Sun Pharma", "category": "Antibiotic",  "price": 120, "inStock": true,  "rating": 4.2 },
+  { "id": 3, "name": "Cetirizine 10mg",  "brand": "Dr Reddy's", "category": "Allergy",     "price": 25,  "inStock": false, "rating": 4.0 },
+  { "id": 4, "name": "Ibuprofen 200mg",   "brand": "Abbott",    "category": "Pain Relief", "price": 60,  "inStock": true,  "rating": 4.3 },
+  { "id": 5, "name": "Metformin 500mg",   "brand": "Zydus",     "category": "Diabetes",    "price": 55,  "inStock": true,  "rating": 4.6 }
+]
