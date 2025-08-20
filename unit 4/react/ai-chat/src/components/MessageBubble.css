@@ -1,0 +1,23 @@
+.bubble {
+  padding: 10px 16px;
+  border-radius: 18px;
+  margin: 8px 0;
+  max-width: 70%;
+  display: flex;
+  flex-direction: column;
+  font-size: 1rem;
+}
+.bubble.user {
+  background: #e0eaff;
+  align-self: flex-end;
+}
+.bubble.ai {
+  background: #f3f3f3;
+  align-self: flex-start;
+}
+.timestamp {
+  font-size: 0.75rem;
+  color: #888;
+  margin-top: 4px;
+  align-self: flex-end;
+}
