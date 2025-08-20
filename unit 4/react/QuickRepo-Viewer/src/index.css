@@ -1,0 +1,44 @@
+/* base */
+.app {
+  min-height: 100vh;
+  padding: 1.5rem;
+  transition: background-color 0.2s, color 0.2s;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+}
+
+/* light theme variables */
+.app.light {
+  --bg: #ffffff;
+  --text: #111827;
+  --card-bg: #f7f7f9;
+  --card-border: rgba(0,0,0,0.08);
+}
+
+/* dark theme variables */
+.app.dark {
+  --bg: #0b0e14;
+  --text: #e6e6e6;
+  --card-bg: #0f1724;
+  --card-border: rgba(255,255,255,0.06);
+}
+
+/* apply */
+.app {
+  background: var(--bg);
+  color: var(--text);
+}
+
+/* repo card */
+.repo-card {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  padding: 1rem;
+  border-radius: 8px;
+  margin: 0.6rem 0;
+}
+
+/* small niceties */
+input, button {
+  padding: 0.5rem;
+  border-radius: 6px;
+}
