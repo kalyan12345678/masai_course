@@ -1,4 +1,4 @@
-const medicines = [
+const medicines =[
   { id: "1", name: "Paracetamol 500mg", price: 50, category: "Pain Relief", brand: "MediCare" },
   { id: "2", name: "Amoxicillin 250mg", price: 120, category: "Antibiotics", brand: "PharmaPlus" },
   { id: "3", name: "Cetirizine 10mg", price: 80, category: "Allergy", brand: "HealthLife" },
@@ -28,7 +28,27 @@ const medicines = [
   { id: "27", name: "Salbutamol Inhaler", price: 220, category: "Asthma", brand: "BreathEZ" },
   { id: "28", name: "Budesonide Inhaler", price: 250, category: "Asthma", brand: "BreathEZ" },
   { id: "29", name: "Levothyroxine 50mcg", price: 130, category: "Thyroid", brand: "ThyroCare" },
-  { id: "30", name: "Prednisolone 10mg", price: 140, category: "Steroids", brand: "PharmaPlus" }
+  { id: "30", name: "Prednisolone 10mg", price: 140, category: "Steroids", brand: "PharmaPlus" },
+  { id: "31", name: "Ceftriaxone 1g Injection", price: 210, category: "Antibiotics", brand: "PharmaPlus" },
+  { id: "32", name: "Vitamin D3 2000IU", price: 120, category: "Supplements", brand: "NutriBoost" },
+  { id: "33", name: "Glimepiride 2mg", price: 95, category: "Diabetes", brand: "GlucoCare" },
+  { id: "34", name: "Omeprazole SR 40mg", price: 135, category: "Gastric Care", brand: "DigestWell" },
+  { id: "35", name: "Cefuroxime 500mg", price: 180, category: "Antibiotics", brand: "PharmaPlus" },
+  { id: "36", name: "Diclofenac 50mg", price: 85, category: "Pain Relief", brand: "MediCare" },
+  { id: "37", name: "Risperidone 2mg", price: 190, category: "Psychiatric", brand: "NeuroSafe" },
+  { id: "38", name: "Olanzapine 10mg", price: 250, category: "Psychiatric", brand: "NeuroSafe" },
+  { id: "39", name: "Clonazepam 0.5mg", price: 150, category: "Psychiatric", brand: "NeuroSafe" },
+  { id: "40", name: "Fluoxetine 20mg", price: 180, category: "Psychiatric", brand: "NeuroSafe" },
+  { id: "41", name: "Cefixime 400mg", price: 195, category: "Antibiotics", brand: "PharmaPlus" },
+  { id: "42", name: "Mometasone Nasal Spray", price: 220, category: "Allergy", brand: "HealthLife" },
+  { id: "43", name: "Levocetirizine 5mg", price: 100, category: "Allergy", brand: "HealthLife" },
+  { id: "44", name: "Clopidogrel 75mg", price: 160, category: "Cardiovascular", brand: "CardioSafe" },
+  { id: "45", name: "Aspirin 75mg", price: 50, category: "Cardiovascular", brand: "CardioSafe" },
+  { id: "46", name: "Atorvastatin 40mg", price: 180, category: "Cholesterol", brand: "LipiGuard" },
+  { id: "47", name: "Simvastatin 20mg", price: 160, category: "Cholesterol", brand: "LipiGuard" },
+  { id: "48", name: "Furosemide 40mg", price: 90, category: "Hypertension", brand: "CardioSafe" },
+  { id: "49", name: "Hydrochlorothiazide 25mg", price: 80, category: "Hypertension", brand: "CardioSafe" },
+  { id: "50", name: "Prednisone 20mg", price: 200, category: "Steroids", brand: "PharmaPlus" }
 ];
 
 export function getMedicines() {
