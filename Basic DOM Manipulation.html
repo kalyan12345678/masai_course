@@ -5,13 +5,80 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Dynamic List</title>
   <style>
+    body {
+      background: linear-gradient(120deg, #f0f4f8 0%, #d9e7fa 100%);
+      font-family: 'Segoe UI', Arial, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      margin: 0;
+    }
+
+    ul#itemList {
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+      padding: 32px 40px 24px 40px;
+      margin-bottom: 32px;
+      min-width: 320px;
+      list-style: none;
+      transition: box-shadow 0.3s;
+    }
+    ul#itemList:hover {
+      box-shadow: 0 8px 32px rgba(0,0,0,0.16);
+    }
+
+    ul#itemList li {
+      font-size: 1.2rem;
+      padding: 12px 0 12px 16px;
+      margin: 0 0 8px 0;
+      border-radius: 8px;
+      transition: background 0.2s, color 0.2s, transform 0.2s;
+      cursor: pointer;
+      position: relative;
+    }
+    ul#itemList li:last-child {
+      margin-bottom: 0;
+    }
+
     .odd {
       font-weight: bold;
-      color: blue;
+      color: #2563eb;
+      background: linear-gradient(90deg, #e0e7ff 0%, #f0f4ff 100%);
+      box-shadow: 0 2px 8px rgba(37,99,235,0.08);
     }
     .even {
       font-style: italic;
-      color: red;
+      color: #d7263d;
+      background: linear-gradient(90deg, #ffe0e7 0%, #fff0f4 100%);
+      box-shadow: 0 2px 8px rgba(215,38,61,0.08);
+    }
+    ul#itemList li:hover {
+      background: #f3f4f6;
+      color: #111;
+      transform: translateX(6px) scale(1.03);
+    }
+
+    #addButton {
+      background: linear-gradient(90deg, #2563eb 0%, #60a5fa 100%);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      padding: 12px 32px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      box-shadow: 0 2px 8px rgba(37,99,235,0.12);
+      cursor: pointer;
+      transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
+      outline: none;
+      margin-top: 8px;
+    }
+    #addButton:hover {
+      background: linear-gradient(90deg, #1e40af 0%, #2563eb 100%);
+      transform: scale(1.06);
+      box-shadow: 0 4px 16px rgba(37,99,235,0.18);
     }
   </style>
 </head>
